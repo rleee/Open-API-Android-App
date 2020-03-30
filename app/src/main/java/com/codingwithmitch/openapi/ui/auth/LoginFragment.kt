@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.codingwithmitch.openapi.R
+import com.codingwithmitch.openapi.util.ApiEmptyResponse
+import com.codingwithmitch.openapi.util.ApiErrorResponse
+import com.codingwithmitch.openapi.util.ApiSuccessResponse
+import com.codingwithmitch.openapi.util.GenericApiResponse
 
 class LoginFragment : BaseAuthFragment() {
 
@@ -23,6 +28,23 @@ class LoginFragment : BaseAuthFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d(TAG, "LoginFragment: onViewCreated: ${viewModel.hashCode()}")
+
+        viewModel.testLogin().observe(
+            viewLifecycleOwner,
+            Observer {
+                when(it) {
+                    is ApiSuccessResponse -> {
+                        Log.d(TAG, "onViewCreated: LOGIN RESPONSE: ${it.body}")
+                    }
+                    is ApiEmptyResponse -> {
+                        Log.d(TAG, "onViewCreated: LOGIN RESPONSE: Empty Response")
+                    }
+                    is ApiErrorResponse -> {
+                        Log.d(TAG, "onViewCreated: LOGIN RESPONSE: ${it.errorMessage}")
+                    }
+                }
+            }
+        )
     }
 
 }
