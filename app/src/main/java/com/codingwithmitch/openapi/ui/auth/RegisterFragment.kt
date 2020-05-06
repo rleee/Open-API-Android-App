@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 
 import com.codingwithmitch.openapi.R
+import com.codingwithmitch.openapi.ui.auth.state.RegistrationFields
 import com.codingwithmitch.openapi.util.ApiEmptyResponse
 import com.codingwithmitch.openapi.util.ApiErrorResponse
 import com.codingwithmitch.openapi.util.ApiSuccessResponse
+import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : BaseAuthFragment() {
 
@@ -28,22 +30,30 @@ class RegisterFragment : BaseAuthFragment() {
 
         Log.d(TAG, "RegisterFragment: onViewCreated: ${viewModel.hashCode()}")
 
-        viewModel.testRegister().observe(
-            viewLifecycleOwner,
-            Observer {
-                when(it) {
-                    is ApiSuccessResponse -> {
-                        Log.d(TAG, "onViewCreated: REGISTER RESPONSE: ${it.body}")
-                    }
-                    is ApiEmptyResponse -> {
-                        Log.d(TAG, "onViewCreated: REGISTER RESPONSE: Empty Response")
-                    }
-                    is ApiErrorResponse -> {
-                        Log.d(TAG, "onViewCreated: REGISTER RESPONSE: ${it.errorMessage}")
-                    }
-                }
-            }
+        subscribeObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setRegistrationFields(
+            RegistrationFields(
+                input_email.text.toString(),
+                input_username.text.toString(),
+                input_password.text.toString(),
+                input_password_confirm.text.toString()
+            )
         )
+    }
+
+    private fun subscribeObservers() {
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { authViewState ->
+            authViewState.registrationFields?.apply {
+                registrationUsername?.let { input_username.setText(it) }
+                registrationEmail?.let { input_email.setText(it) }
+                registrationPassword?.let { input_password.setText(it) }
+                registrationConfirmPassword?.let { input_password_confirm.setText(it) }
+            }
+        })
     }
 
 }
