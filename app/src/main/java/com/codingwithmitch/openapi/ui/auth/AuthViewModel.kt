@@ -49,6 +49,14 @@ constructor(
         _viewState.value = viewState
     }
 
+    fun cancelActiveJobs() {
+        authRepository.cancelActiveJob()
+    }
+
+    override fun onCleared() {
+        authRepository.cancelActiveJob()
+    }
+
     override fun handleStateEvent(stateEvent: AuthStateEvent): LiveData<DataState<AuthViewState>> {
         return when (stateEvent) {
             is AuthStateEvent.LoginAttemptEvent -> {
