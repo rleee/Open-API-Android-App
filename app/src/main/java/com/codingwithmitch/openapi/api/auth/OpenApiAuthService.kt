@@ -10,14 +10,14 @@ import retrofit2.http.POST
 
 interface OpenApiAuthService {
 
-    @POST("api/account/login")
+    @POST("account/login")
     @FormUrlEncoded
     fun login(
         @Field("username") email: String,
         @Field("password") password: String
     ): LiveData<GenericApiResponse<LoginResponse>>
 
-    @POST("api/account/register")
+    @POST("account/register")
     @FormUrlEncoded
     fun register(
         @Field("email") email: String,

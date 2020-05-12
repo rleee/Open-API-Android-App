@@ -11,6 +11,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.codingwithmitch.openapi.R
 import com.codingwithmitch.openapi.ui.*
+import com.codingwithmitch.openapi.ui.auth.state.AuthStateEvent
 import com.codingwithmitch.openapi.ui.auth.state.AuthViewState
 import com.codingwithmitch.openapi.ui.main.MainActivity
 import com.codingwithmitch.openapi.viewmodels.ViewModelProviderFactory
@@ -31,6 +32,7 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         findNavController(R.id.auth_nav_host_fragment).addOnDestinationChangedListener(this)
 
         subscribeObserver()
+        checkPreviousAuthUser()
     }
 
     override fun displayProgressBar(boolean: Boolean) {
@@ -75,6 +77,10 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun checkPreviousAuthUser() {
+        viewModel.setStateEvent(AuthStateEvent.CheckPreviousAuthEvent())
     }
 
     override fun onDestinationChanged(

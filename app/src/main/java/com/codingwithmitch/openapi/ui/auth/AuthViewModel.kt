@@ -1,9 +1,6 @@
 package com.codingwithmitch.openapi.ui.auth
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.codingwithmitch.openapi.api.auth.network_responses.LoginResponse
-import com.codingwithmitch.openapi.api.auth.network_responses.RegistrationResponse
 import com.codingwithmitch.openapi.models.AuthTokenModel
 import com.codingwithmitch.openapi.repository.auth.AuthRepository
 import com.codingwithmitch.openapi.ui.BaseViewModel
@@ -12,8 +9,6 @@ import com.codingwithmitch.openapi.ui.auth.state.AuthStateEvent
 import com.codingwithmitch.openapi.ui.auth.state.AuthViewState
 import com.codingwithmitch.openapi.ui.auth.state.LoginFields
 import com.codingwithmitch.openapi.ui.auth.state.RegistrationFields
-import com.codingwithmitch.openapi.util.AbsentLiveData
-import com.codingwithmitch.openapi.util.GenericApiResponse
 import javax.inject.Inject
 
 class AuthViewModel
@@ -74,7 +69,7 @@ constructor(
                 )
             }
             is AuthStateEvent.CheckPreviousAuthEvent -> {
-                AbsentLiveData.create()
+                authRepository.checkPreviousAuthUser()
             }
         }
     }
