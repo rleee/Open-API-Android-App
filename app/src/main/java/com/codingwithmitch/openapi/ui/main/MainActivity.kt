@@ -3,6 +3,7 @@ package com.codingwithmitch.openapi.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import com.codingwithmitch.openapi.R
 import com.codingwithmitch.openapi.ui.BaseActivity
@@ -20,6 +21,14 @@ class MainActivity : BaseActivity() {
         // will remove later, only for testing to logout
         tool_bar.setOnClickListener {
             sessionManager.logout()
+        }
+    }
+
+    override fun displayProgressBar(boolean: Boolean) {
+        if (boolean) {
+            progress_bar.visibility = View.VISIBLE
+        } else {
+            progress_bar.visibility = View.GONE
         }
     }
 
