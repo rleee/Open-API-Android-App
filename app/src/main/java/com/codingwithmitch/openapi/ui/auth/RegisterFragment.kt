@@ -2,17 +2,13 @@ package com.codingwithmitch.openapi.ui.auth
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-
 import com.codingwithmitch.openapi.R
+import com.codingwithmitch.openapi.ui.auth.state.AuthStateEvent
 import com.codingwithmitch.openapi.ui.auth.state.RegistrationFields
-import com.codingwithmitch.openapi.util.ApiEmptyResponse
-import com.codingwithmitch.openapi.util.ApiErrorResponse
-import com.codingwithmitch.openapi.util.ApiSuccessResponse
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : BaseAuthFragment() {
@@ -31,6 +27,9 @@ class RegisterFragment : BaseAuthFragment() {
         Log.d(TAG, "RegisterFragment: onViewCreated: ${viewModel.hashCode()}")
 
         subscribeObservers()
+        register_button.setOnClickListener {
+            register()
+        }
     }
 
     override fun onDestroyView() {
@@ -56,4 +55,14 @@ class RegisterFragment : BaseAuthFragment() {
         })
     }
 
+    fun register() {
+        viewModel.setStateEvent(
+            AuthStateEvent.RegisterAttempEvent(
+                input_email.text.toString(),
+                input_username.text.toString(),
+                input_password.text.toString(),
+                input_password_confirm.text.toString()
+            )
+        )
+    }
 }

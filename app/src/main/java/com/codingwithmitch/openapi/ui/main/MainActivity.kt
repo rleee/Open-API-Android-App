@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.codingwithmitch.openapi.R
 import com.codingwithmitch.openapi.ui.BaseActivity
 import com.codingwithmitch.openapi.ui.auth.AuthActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
@@ -15,6 +16,11 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         subscribeObserver()
+
+        // will remove later, only for testing to logout
+        tool_bar.setOnClickListener {
+            sessionManager.logout()
+        }
     }
 
     private fun subscribeObserver() {
