@@ -35,6 +35,10 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         checkPreviousAuthUser()
     }
 
+    override fun expandAppBar() {
+        // No need to implement here
+    }
+
     override fun displayProgressBar(boolean: Boolean) {
         if (boolean) {
             progress_bar.visibility = View.VISIBLE

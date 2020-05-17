@@ -8,6 +8,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.codingwithmitch.openapi.R
 import com.codingwithmitch.openapi.ui.BaseActivity
@@ -18,6 +23,7 @@ import com.codingwithmitch.openapi.ui.main.blog.UpdateBlogFragment
 import com.codingwithmitch.openapi.ui.main.blog.ViewBlogFragment
 import com.codingwithmitch.openapi.util.BottomNavController
 import com.codingwithmitch.openapi.util.setUpNavigation
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -40,13 +46,13 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupActionBar()
         bottomNavigationView = findViewById(R.id.bottom_navigation_view)
         bottomNavigationView.setUpNavigation(bottomNavController, this)
         if (savedInstanceState == null) {
             bottomNavController.onNavigationItemSelected()
         }
 
+        setupActionBar()
         subscribeObserver()
     }
 
@@ -84,6 +90,10 @@ class MainActivity : BaseActivity(),
         return super.onOptionsItemSelected(item)
     }
 
+    override fun expandAppBar() {
+        findViewById<AppBarLayout>(R.id.app_bar).setExpanded(true)
+    }
+
     override fun onBackPressed() {
         bottomNavController.onBackPressed()
     }
@@ -98,7 +108,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onGraphChange() {
-        // later
+        expandAppBar()
     }
 
     override fun onReselectNavItem(navController: NavController, fragment: Fragment) {

@@ -1,11 +1,18 @@
 package com.codingwithmitch.openapi.ui.main.create_blog
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import com.codingwithmitch.openapi.R
 import com.codingwithmitch.openapi.ui.DataStateChangeListener
 import dagger.android.support.DaggerFragment
 
-abstract class BaseCreateBlogFragment : DaggerFragment(){
+abstract class BaseCreateBlogFragment : DaggerFragment() {
 
     val TAG: String = "AppDebug"
 
@@ -13,10 +20,25 @@ abstract class BaseCreateBlogFragment : DaggerFragment(){
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        try{
+        try {
             stateChangeListener = context as DataStateChangeListener
-        }catch(e: ClassCastException){
-            Log.e(TAG, "$context must implement DataStateChangeListener" )
+        } catch (e: ClassCastException) {
+            Log.e(TAG, "$context must implement DataStateChangeListener")
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpActionBarWithNavControllder(R.id.createBlogFragment, activity as AppCompatActivity)
+    }
+
+    private fun setUpActionBarWithNavControllder(fragmentId: Int, activity: AppCompatActivity) {
+        val appBarConfiguration =
+            AppBarConfiguration(setOf(fragmentId)) // setOf is the top levl fragment (noneed up button to be shown)
+        NavigationUI.setupActionBarWithNavController(
+            activity,
+            findNavController(),
+            appBarConfiguration
+        )
     }
 }
